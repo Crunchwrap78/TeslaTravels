@@ -1,0 +1,12 @@
+{
+  "s3":[
+    {
+      "name": "Disney",
+      "location": "Walt Disney World Resort, Orlando, FL 32830"
+    },
+    {
+      "name": "Hershey",
+      "location": "100 Hersheypark Dr, Hershey, PA 17033"
+    }
+  ]
+}

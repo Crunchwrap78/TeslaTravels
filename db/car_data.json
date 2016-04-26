@@ -1,0 +1,59 @@
+[
+  {
+    "id": "s1",
+    "name": "Tesla",
+    "model": "Model S",
+    "type-model": "70D",
+    "battery_range": 255,
+    "photo_url": "/public/images/models"
+  },
+  {
+    "id": "s2",
+    "name": "Tesla",
+    "model": "Model S",
+    "type-model": "P90D",
+    "battery_range": 294,
+    "photo_url": "/public/images/models.jpg"
+  },
+  {
+    "id": "s3",
+    "name": "Tesla",
+    "model": "Model S",
+    "type-model": "90D",
+    "battery_range": 302,
+    "photo_url": "/public/images/models.jpg"
+  },
+  {
+    "id": "x1",
+    "name": "Tesla",
+    "model": "Model X",
+    "type-model": "75D",
+    "battery_range": 237,
+    "photo_url": "/public/images/modelx.jpg"
+  },
+  {
+    "id": "x2",
+    "name": "Tesla",
+    "model": "Model X",
+    "type-model": "P90D",
+    "battery_range": 250,
+    "photo_url": "/public/images/modelx.jpg"
+  },
+  {
+    "id": "x3",
+    "name": "Tesla",
+    "model": "Model X",
+    "type-model": "90D",
+    "battery_range": 255,
+    "photo_url": "/public/images/modelx.jpg"
+  },
+  {
+    "id": "III1",
+    "name": "Tesla",
+    "model": "Model III",
+    "type-model": "Unknown",
+    "battery_range": 237,
+    "photo_url": "/public/images/model3.jpg"
+  }
+
+]

@@ -1,11 +1,14 @@
-var mongoose  = require("mongoose");
+var mongoose  = require('mongoose');
+mongoose.connect('mongodb://localhost/teslatravels');
+var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
 
-var CarSchema = new mongoose.Schema(
+var CarSchema = new Schema(
   {
     name: { type: String, default: "Tesla" },
     model: String,
     type_model: String,
-    battery_range: String,
+    battery_range: Number,
     photo_url: String,
     trip:[{type: ObjectId, ref: "Trip"}]
   },
@@ -22,11 +25,14 @@ CarSchema.virtual("id").get(function(){
 
 var TripSchema = new Schema({
    name: String,
-   location: String
+   location: String,
    car: {type: ObjectId, ref: "Car"}
 });
 
-mongoose.model("Car", CarSchema);
-mongoose.model("Trip", TripSchema);
+var CarModel = mongoose.model("Car", CarSchema);
+var TripModel = mongoose.model("Trip", TripSchema);
 
-module.exports = mongoose;
+module.exports = {
+  CarModel: CarModel,
+  TripModel: TripModel
+}
