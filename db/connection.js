@@ -34,5 +34,6 @@ var TripModel = mongoose.model("Trip", TripSchema);
 
 module.exports = {
   CarModel: CarModel,
-  TripModel: TripModel
+  TripModel: TripModel,
+  mongoose
 }

@@ -18,23 +18,25 @@ var Car = require("../model/car");
 var Trip = require("../model/trip")
 Trip.remove({}).then(function(){
   Car.remove({}).then(function(){
-    forEach(carData, function(carDatum){
-      return new Car(carDatum).save().then(function(car){
-        return forEach(tripData[car.name], function(tripDatum){
+
+    carData.forEach(function(carDatum){
+      new Car(carDatum).save().then(function(car){
+        tripData[car.name].forEach(function(tripDatum){
           trip = new Trip(tripDatum);
-          console.log(car.name + " driving for " + trip.name);
-          trip.car = car;
-          return trip.save().then(function(trip){
-            car.trips.push(trip);
-            car.save();
+//           console.log(car.name + " driving for " + trip.name);
+//           trip.car = car;
+//           return trip.save().then(function(trip){
+//             car.trips.push(trip);
+//             car.save();
           });
         })
       });
-    }).then(function(){
-      process.exit();
-    });
-  });
+//     }).then(function(){
+//    process.exit();
+//   });
 });
+});
+
 
 
 function forEach(collection, callback, index){

@@ -2,13 +2,11 @@ var express = require("express");
 var app = express();
 var path = require("path");
 var parser = require("body-parser");
+var mongoose= require("./db/connection");
 
 app.use("/public", express.static("public"));
 app.use(parser.json({extended: true}));
 
-app.get("/", function(req, res){
-  res.render("index.html");
-});
 
 app.use("/cars", require("./controllers/cars"));
 app.use("/trips", require("./controllers/trips"));
