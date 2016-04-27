@@ -20,28 +20,28 @@ router.post("/api/trips", function(req, res){
   });
 });
 
-router.get("api/:id", function(req, res){
+router.get("api/:vehicle_id", function(req, res){
   Car.findById(req.params.id).populate("car, id").then(function(car){
     res.json(car);
   });
 });
 
-router.get("api/:id/trips", function(req, res){
+router.get("api/:_id/trips", function(req, res){
   Car.findById(req.params.id).populate("car, id").then(function(car){
     res.json(car.trips);
   });
 });
 
-router.patch("api/trip/:id", function(req, res){
+router.patch("api/trip/:_id", function(req, res){
   Car.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true}).then(function(car){
     res.json(car);
   })
 });
 
-router.delete("/api/trips/:id", function(req, res){
+router.delete("/api/trips/:i_d", function(req, res){
   Trip.findById(req.params.id).then(function(trip){
     Car.findByIdAndUpdate(trip.car._id, {
-      $pull: { trips: {_id: req.params.id} }
+      $pull: { trips: {_id: req.params._id} }
     }).then(function(){
       return trip.remove();
     }).then(function(){

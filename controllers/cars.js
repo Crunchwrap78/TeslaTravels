@@ -14,7 +14,7 @@ router.get("/api/cars", function(req, res){
   });
 });
 
-router.post("/api/cars/:id", function(req, res){
+router.post("/api/cars/:vehicle_id", function(req, res){
   Car.create(req.body.car).then(function(car){
     res.json(car);
   });
@@ -26,14 +26,14 @@ router.get("api/:id", function(req, res){
   });
 });
 
-router.get("api/:id/trips", function(req, res){
+router.get("api/:_id/trips", function(req, res){
   Car.findById(req.params.id).populate("trips").then(function(car){
     res.json(car.trips);
   });
 });
 
-router.patch("api/car/:id", function(req, res){
-  Car.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true}).then(function(car){
+router.patch("api/car/:_id", function(req, res){
+  Car.findByIdAndUpdate(req.params._id, {$set: req.body}, {new: true}).then(function(car){
     res.json(car);
   })
 });

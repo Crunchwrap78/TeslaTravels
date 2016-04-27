@@ -5,6 +5,7 @@ var ObjectId = Schema.Types.ObjectId;
 
 var CarSchema = new Schema(
   {
+    vehicle_id: String,
     name: { type: String, default: "Tesla" },
     model: String,
     type_model: String,
