@@ -32,7 +32,7 @@ router.get("api/:_id/trips", function(req, res){
   });
 });
 
-router.patch("api/trip/:_id", function(req, res){
+router.patch("api/trip/:id", function(req, res){
   Car.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true}).then(function(car){
     res.json(car);
   })
@@ -40,8 +40,8 @@ router.patch("api/trip/:_id", function(req, res){
 
 router.delete("/api/trips/:i_d", function(req, res){
   Trip.findById(req.params.id).then(function(trip){
-    Car.findByIdAndUpdate(trip.car._id, {
-      $pull: { trips: {_id: req.params._id} }
+    Car.findByIdAndUpdate(trip.car.id, {
+      $pull: { trips: {id: req.params.id} }
     }).then(function(){
       return trip.remove();
     }).then(function(){

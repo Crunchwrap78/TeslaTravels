@@ -1,0 +1,6 @@
+<div data-ng-repeat="car in indexVM.car">
+  <div class="car">
+    <img data-ng-src="{{ photo_url}}" alt="{{car.name}}" />
+    <p><a data-ui-sref="show({id: car.id})">{{car.name}},{{car.model}}</a></p>
+  </div>
+</div>

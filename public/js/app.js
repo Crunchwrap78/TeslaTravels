@@ -12,11 +12,20 @@
     "$locationProvider",
     Router
   ])
-  .factory("Car", Car)
+  .factory("Car",[
+    "$resource",
+    Car
+  ])
   .directive("carForm", carForm)
-  .controller("indexCtrl", indexCtrl)
-  .controller("showCtrl", showCtrl);
-
+  .controller("indexCtrl", [
+    "Car",
+    indexCtrl
+  ])
+  .controller("showCtrl", [
+    "Car",
+    "$stateParams",
+     showCtrl
+  ]);
   function Router($stateProvider, $urlRouterProvider, $locationProvider){
     $locationProvider.html5Mode(true);
     $stateProvider
@@ -28,23 +37,31 @@
       url: "/cars",
       templateUrl: "/public/html/cars-index.html",
       controller: "indexCtrl",
-      controllerAs: "vm"
+      controllerAs: "indexVM"
     })
     .state("show", {
-      url: "/cars/:_id",
+      url: "/cars/:id",
       templateUrl: "/public/html/cars-show.html",
       controller: "showCtrl",
-      controllerAs: "vm"
+      controllerAs: "showVM"
     });
     $urlRouterProvider.otherwise("/");
   }
 
-  Car.$inject = [ "$resource" ];
   function Car($resource){
-    var Car = $resource("/api/car/:_id", {}, {
+    var Car = $resource("api/cars", {}, {
       update: {method: "PUT"}
     });
-    Car.all = Car.query();
+     console.log(Car)
+      Car.all = Car.query();
+      console.log(Car.all)
+      Car.find = function(property, value, callback){
+        Car.all.$promise.then(function(){
+          Car.all.forEach(function(car){
+            if(car[property] == value) callback(car);
+          });
+        });
+      }
     return Car;
   }
 
@@ -53,42 +70,43 @@
     var directive = {};
     directive.templateUrl = "/public/html/car-form.html";
     directive.scope = {
-      candidate: "=",
+      car: "=",
       action: "@"
     }
     directive.link = function(scope){
-      var originalName = $stateParams._id;
+      var originalName = $stateParams.id;
       scope.create = function(){
         Car.save({car: scope.car}, function(response){
           var car = new Car(response);
           Car.all.push(car);
-          $state.go("show", {_id: car._id});
+          $state.go("show", {id: car.id});
         });
       }
       scope.update = function(){
-        Car.update({name: originalName}, {car: scope.candidate}, function(car){
+        Car.update({name: originalName}, {car: scope.car}, function(car){
           console.log("Updated!");
-          $state.go("show", {_id: car._id});
+          $state.go("show", {id: car.id});
         });
       }
     }
     return directive;
   }
-  indexCtrl.$inject = [ "Car" ];
-  function indexCtrl(Candidate){
-    var vm = this;
-    vm.candidates = Candidate.all;
-  }
-  showCtrl.$inject = [ "$stateParams", "Car" ];
-  function showCtrl($stateParams, Candidate){
-    var vm = this;
-    Car.all.$promise.then(function(){
-      Car.all.forEach(function(candidate){
-        if(car.vehicle_id === $stateParams.vehicle_id){
-          vm.car = car;
-        }
-      });
-    });
+
+  function indexCtrl(Car){
+    var vm = this
+    vm.cars = Car.all
+    console.log("stuff")
   }
 
+  function showCtrl(Car, $stateParams){
+    var vm = this;
+    Car.find("name", $stateParams.name, function(car){
+      vm.car = car;
+    });
+    vm.update = function(){
+      Car.update({name: vm.car.name}, {car: vm.car}, function(){
+        console.log("Done!");
+      });
+    }
+  }
 })();
