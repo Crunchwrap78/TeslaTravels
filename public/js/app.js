@@ -50,8 +50,17 @@
 
   function Car($resource){
     var Car = $resource("api/cars", {}, {
-      update: {method: "PUT"}
+      update: {method: "PUT"},
+      trip: {
+        method: "POST",
+        url: "api/cars/:id/trips",
+        params:{
+          name: "@name",
+          location: "@location"
+        }
+      }
     });
+
      console.log(Car)
       Car.all = Car.query();
       console.log(Car.all)
@@ -95,7 +104,6 @@
   function indexCtrl(Car){
     var vm = this
     vm.cars = Car.all
-    console.log("stuff")
   }
 
   function showCtrl(Car, $stateParams){

@@ -8,8 +8,8 @@ app.use("/public", express.static("public"));
 app.use(parser.json({extended: true}));
 
 
-app.use("/cars", require("./controllers/cars"));
-app.use("/trips", require("./controllers/trips"));
+app.use("/", require("./controllers/cars"));
+app.use("/", require("./controllers/trips"));
 
 app.get("/*", function(req, res){
   res.sendFile(__dirname + "/views/index.html");

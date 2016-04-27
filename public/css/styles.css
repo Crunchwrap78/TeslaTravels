@@ -1,0 +1,41 @@
+div.car,table{
+  display: inline-block;
+  text-align: center;
+}
+
+table td{
+  width: 50%;
+  height: 50%;
+}
+
+th, td, tr{
+  padding: 12px;
+}
+
+.table_container {
+  width: 230px;
+  outline: black solid 1px;
+  float: right;
+  margin-left: 50px;
+}
+
+.data_left {
+  float: left;
+  border-right: 1px solid black;
+}
+
+.data_right {
+  float: right;
+}
+
+div.button{
+  color: white;
+  background-color: red;
+  decoration: none;
+  height: 20px
+}
+
+p a{
+  text-decoration:none;
+  color: white;
+}
