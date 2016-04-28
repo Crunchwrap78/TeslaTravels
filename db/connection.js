@@ -11,7 +11,7 @@ var CarSchema = new Schema(
     type_model: String,
     battery_range: Number,
     photo_url: String,
-    trip:[{type: ObjectId, ref: "Trip"}]
+    trips:[{type: Schema.Types.ObjectId, ref: "Trip"}]
   },
   {
     toObject: {virtuals: true},

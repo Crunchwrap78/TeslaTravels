@@ -38,7 +38,7 @@ router.patch("api/trip/:id", function(req, res){
   })
 });
 
-router.delete("/api/trips/:i_d", function(req, res){
+router.delete("/api/trips/:id", function(req, res){
   Trip.findById(req.params.id).then(function(trip){
     Car.findByIdAndUpdate(trip.car.id, {
       $pull: { trips: {id: req.params.id} }

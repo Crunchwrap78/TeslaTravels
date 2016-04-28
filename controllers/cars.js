@@ -26,7 +26,7 @@ router.get("/api/cars/:id", function(req, res){
   });
 });
 
-router.get("/api/cars/:id/trips", function(req, res){
+router.get("/api/cars/:id/trip", function(req, res){
   Car.findById(req.params.id).populate("trips").then(function(car){
     res.json(car.trips);
   });

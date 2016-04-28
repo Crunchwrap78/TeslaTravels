@@ -16,6 +16,10 @@
     "$resource",
     Car
   ])
+  .factory("Trip",[
+    "$resource",
+    Trip
+  ])
   .directive("carForm", carForm)
   .controller("indexCtrl", [
     "Car",
@@ -23,6 +27,7 @@
   ])
   .controller("showCtrl", [
     "Car",
+    "Trip",
     "$stateParams",
      showCtrl
   ]);
@@ -44,9 +49,42 @@
       templateUrl: "/public/html/cars-show.html",
       controller: "showCtrl",
       controllerAs: "showVM"
+    })
+    .state("tripForm", {
+      url: "/trips/new",
+      templateUrl: "/public/post.index.html",
+      controller: "postIndexController",
+      controllerAs: "tripNewVM"
+    })
+    .state("tripShow", {
+      url: "/trips/:id",
+      templateUrl: "/public/post.show.html",
+      controller: "postShowController",
+      controllerAs: "tripShowVM"
     });
+    .state("tripIndex", {
+      url: "/trip/",
+      templateUrl: "/posts/post.index.html",
+      controller: "postIndexController",
+      controllerAs: "tripIndexVM"
+    })
     $urlRouterProvider.otherwise("/");
   }
+  function Trip($resource){
+    var Trip = $resource("api/trips", {}, {
+      update: {method: "PUT"}
+    });
+    Trip.all = Trip.query();
+    console.log(Trip.all)
+    Trip.find = function(property, value, callback){
+      Trip.all.$promise.then(function(){
+        Trip.all.forEach(function(car){
+          if(car[property] == value) callback(car);
+        });
+      });
+    }
+  return Trip;
+}
 
   function Car($resource){
     var Car = $resource("api/cars", {}, {
@@ -60,8 +98,6 @@
         }
       }
     });
-
-     console.log(Car)
       Car.all = Car.query();
       console.log(Car.all)
       Car.find = function(property, value, callback){
@@ -108,8 +144,9 @@
 
   function showCtrl(Car, $stateParams){
     var vm = this;
-    Car.find("name", $stateParams.name, function(car){
+    Car.find("id", $stateParams.id, function(car){
       vm.car = car;
+      console.log(vm.car)
     });
     vm.update = function(){
       Car.update({name: vm.car.name}, {car: vm.car}, function(){

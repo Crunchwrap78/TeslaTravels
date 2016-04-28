@@ -21,7 +21,8 @@
     "model": "Model S",
     "type_model": "90D",
     "battery_range": 302,
-    "photo_url": "/public/images/models.jpg"
+    "photo_url": "/public/images/models.jpg",
+    "trips": ["57213a3810280fb9b2abf7f0", "57213a3810280fb9b2abf7f1"]
   },
   {
     "vehicle_id": "x1",
