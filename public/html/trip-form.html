@@ -4,33 +4,15 @@
   </div>
 
   <label for="trip-name">Trip Name</label>
-  <input id="trip-name" type="text" placeholder="Enter a trip name" data-ng-model="trip.name">
+  <input id="trip-name" type="text" placeholder="Enter a trip name" data-ng-model="car.id.trip.name">
   <label for="pac-input">Location</label>
   <input id="pac-input" class="controls" type="text"
   placeholder="Enter a location">
-  <div id="type-selector" class="controls">
-
-
-    <div id="type-selector" class="controls">
-      <input type="radio" name="type" id="changetype-all" checked="checked">
-      <label id="radiobuttontext" for="changetype-all">All</label>
-
-      <input type="radio" name="type" id="changetype-establishment">
-      <label id="radiobuttontext" for="changetype-establishment">Establishments</label>
-
-      <input type="radio" name="type" id="changetype-address">
-      <label id="radiobuttontext" for="changetype-address">Addresses</label>
-
-    </div>
-    <div class="spotbox">
-      <ul id="spots" class="collection">
-      </ul>
-    </div>
 
     <div id="submitbutton">
       <button type="button"  class="btn btn-primary btn-block" data-ng-click="create()">Submit</button>
     </div>
   </div>
-</div>
+
 
 <div class="col s9" id="map"></div>
