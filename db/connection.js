@@ -27,7 +27,7 @@ CarSchema.virtual("id").get(function(){
 var TripSchema = new Schema({
    name: String,
    location: String,
-   car: {type: ObjectId, ref: "Car"}
+   car: {type: Schema.Types.ObjectId, ref: "Car"}
 });
 
 var CarModel = mongoose.model("Car", CarSchema);

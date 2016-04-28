@@ -21,15 +21,24 @@
     Trip
   ])
   .directive("carForm", carForm)
+  .directive("tripForm", tripForm)
   .controller("indexCtrl", [
     "Car",
     indexCtrl
   ])
   .controller("showCtrl", [
     "Car",
-    "Trip",
     "$stateParams",
      showCtrl
+  ])
+  .controller("tripIndex", [
+    "Trip",
+    tripIndex
+  ])
+  .controller("tripShow", [
+    "Trip",
+    "$stateParams",
+     tripShow
   ]);
   function Router($stateProvider, $urlRouterProvider, $locationProvider){
     $locationProvider.html5Mode(true);
@@ -50,22 +59,16 @@
       controller: "showCtrl",
       controllerAs: "showVM"
     })
-    .state("tripForm", {
-      url: "/trips/new",
-      templateUrl: "/public/post.index.html",
-      controller: "postIndexController",
-      controllerAs: "tripNewVM"
-    })
     .state("tripShow", {
       url: "/trips/:id",
-      templateUrl: "/public/post.show.html",
-      controller: "postShowController",
+      templateUrl: "/public/html/trip-show.html",
+      controller: "tripShow",
       controllerAs: "tripShowVM"
-    });
+    })
     .state("tripIndex", {
-      url: "/trip/",
-      templateUrl: "/posts/post.index.html",
-      controller: "postIndexController",
+      url: "/cars/:id/trips",
+      templateUrl: "/public/html/trip-index.html",
+      controller: "tripIndex",
       controllerAs: "tripIndexVM"
     })
     $urlRouterProvider.otherwise("/");
@@ -75,7 +78,6 @@
       update: {method: "PUT"}
     });
     Trip.all = Trip.query();
-    console.log(Trip.all)
     Trip.find = function(property, value, callback){
       Trip.all.$promise.then(function(){
         Trip.all.forEach(function(car){
@@ -84,6 +86,25 @@
       });
     }
   return Trip;
+}
+
+function tripIndex(Trip){
+  var vm = this;
+  vm.trips = Trip.all;
+  vm.newTrip = new Trip;
+  console.log(vm.trips)
+}
+
+
+function tripShow(Trip, $stateParams){
+  var vm = this;
+  Trip.all.$promise.then(function(){
+    Trip.all.forEach(function(trip){
+      if(trip.id == $stateParams.id){
+        vm.trip = trip;
+      }
+    });
+  });
 }
 
   function Car($resource){
@@ -99,7 +120,6 @@
       }
     });
       Car.all = Car.query();
-      console.log(Car.all)
       Car.find = function(property, value, callback){
         Car.all.$promise.then(function(){
           Car.all.forEach(function(car){
@@ -119,22 +139,51 @@
       action: "@"
     }
     directive.link = function(scope){
-      var originalName = $stateParams.id;
+      var originalName = $stateParams.name;
       scope.create = function(){
         Car.save({car: scope.car}, function(response){
           var car = new Car(response);
           Car.all.push(car);
-          $state.go("show", {id: car.id});
+          $state.go("show", {name: car.name});
         });
       }
       scope.update = function(){
         Car.update({name: originalName}, {car: scope.car}, function(car){
           console.log("Updated!");
-          $state.go("show", {id: car.id});
+          $state.go("show", {name: car.name});
         });
       }
     }
     return directive;
+  }
+
+  tripForm.$inject = [ "$state", "$stateParams", "Trip" , "Car"];
+  function tripForm($state, $stateParams, Trip, Car){
+    var tripdirective = {};
+    tripdirective.templateUrl = "/public/html/trip-form.html";
+    tripdirective.scope = {
+      trip: "=",
+      action: "@"
+    }
+    tripdirective.link = function(scope){
+      var originalName = $stateParams.id;
+      scope.create = function(){
+        console.log("clicked")
+      // Car.get({id: $stateParams.id})
+        Trip.save({car: scope.car}, function(response){
+          var trip = new Trip(response);
+          Trip.all.push(trip);
+          $state.go("show", {id: trip.id});
+        });
+      }
+      scope.update = function(){
+        Car.update({name: originalName}, {trip: scope.trip}, function(trip){
+          console.log("Updated!");
+          $state.go("show", {id: trip.id});
+        });
+      }
+    }
+    return tripdirective;
   }
 
   function indexCtrl(Car){
