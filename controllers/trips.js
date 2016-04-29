@@ -8,7 +8,7 @@ function error(response, message){
   response.json({error: message})
 }
 
-router.get("/api/trips", function(req, res){
+router.get("/api/trips/", function(req, res){
   Trip.find({}).populate("trips").then(function(cars){
     res.json(cars);
   });
