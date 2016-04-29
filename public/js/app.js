@@ -60,7 +60,7 @@
       controllerAs: "showVM"
     })
     .state("tripShow", {
-      url: "/trips/:id",
+      url: "/cars/:id/trips/",
       templateUrl: "/public/html/trip-show.html",
       controller: "tripShow",
       controllerAs: "tripShowVM"
@@ -74,7 +74,7 @@
     $urlRouterProvider.otherwise("/");
   }
   function Trip($resource){
-    var Trip = $resource("api/trips", {}, {
+    var Trip = $resource("api/cars/id/trips", {}, {
       update: {method: "PUT"}
     });
     Trip.all = Trip.query();
@@ -108,7 +108,7 @@ function tripShow(Trip, $stateParams){
 }
 
   function Car($resource){
-    var Car = $resource("api/cars", {}, {
+    var Car = $resource("api/cars/:id", {}, {
       update: {method: "PUT"},
       trip: {
         method: "POST",
@@ -138,13 +138,14 @@ function tripShow(Trip, $stateParams){
       car: "=",
       action: "@"
     }
+
     directive.link = function(scope){
       var originalName = $stateParams.name;
       scope.create = function(){
         Car.save({car: scope.car}, function(response){
           var car = new Car(response);
           Car.all.push(car);
-          $state.go("show", {name: car.name});
+          $state.go("show", {id: car.id});
         });
       }
       scope.update = function(){
@@ -159,95 +160,84 @@ function tripShow(Trip, $stateParams){
 
   tripForm.$inject = [ "$state", "$stateParams", "Trip" , "Car"];
   function tripForm($state, $stateParams, Trip, Car){
-    var tripdirective = {};
-    tripdirective.templateUrl = "/public/html/trip-form.html";
-    tripdirective.scope = {
-      trip: "=",
-      action: "@"
-    }
-    // console.log("stuff")
+    return{
+      templateUrl: "/public/html/trip-form.html",
+      scope: {
+        trip: "=",
+      },
+      link: linking
+    };
 
-      //   var input = document.getElementById('pac-input');
-      //   var autocomplete = new google.maps.places.Autocomplete(input);
-      //   autocomplete.bindTo('bounds', map);
-      //
-      //   var infowindow = new google.maps.InfoWindow();
-      //   var marker = new google.maps.Marker({
-      //     map: map,
-      //     anchorPoint: new google.maps.Point(0, -29)
-      //   });
-      //
-      //   scope.trip = [];
-      //   autocomplete.addListener('place_changed', function() {
-      //     infowindow.close();
-      //     marker.setVisible(false);
-      //     var place = autocomplete.getPlace();
-      //     if (!place.geometry) {
-      //       window.alert("Autocomplete's returned place contains no geometry");
-      //       return;
-      //     } else {
-      //       scope.trip.push({location: place.formatted_address, name: place.name});
-      //       $("#spots").append("<li class='collection-item'>"+ place.name +"</li>");
-      //       $("#pac-input").val('')
-      //     }
-      //
-      //     // If the place has a geometry, present it on the map.
-      //     if (place.geometry.viewport) {
-      //       map.fitBounds(place.geometry.viewport);
-      //     } else {
-      //       map.setCenter(place.geometry.location);
-      //       map.setZoom(17);
-      //     }
-      //     marker.setIcon({
-      //       url: place.icon,
-      //       size: new google.maps.Size(71, 71),
-      //       origin: new google.maps.Point(0, 0),
-      //       anchor: new google.maps.Point(17, 34),
-      //       scaledSize: new google.maps.Size(35, 35)
-      //     });
-      //     marker.setPosition(place.geometry.location);
-      //     marker.setVisible(true);
-      //
-      //     var address = '';
-      //     if (place.address_components) {
-      //       address = [
-      //         (place.address_components[0] && place.address_components[0].short_name || ''),
-      //         (place.address_components[1] && place.address_components[1].short_name || ''),
-      //         (place.address_components[2] && place.address_components[2].short_name || '')
-      //       ].join(' ');
-      //     }
-      //
-      //     infowindow.setContent('<div><strong>' + place.name +
-      //                           '</strong><br>' + address);
-      //     infowindow.open(map, marker);
-      //   });
-      // }
-
-    tripdirective.link = function(scope){
+   function linking(scope){
       var originalName = $stateParams.id;
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 38.901052, lng: -77.031325},
+        zoom: 8,
+        scrollwheel: false
+      });
+      var input = document.getElementById('pac-input');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+      autocomplete.bindTo('bounds', map);
+      var infowindow = new google.maps.InfoWindow();
+      var marker = new google.maps.Marker({
+        map: map,
+        anchorPoint: new google.maps.Point(0, -29)
+      });
+      autocomplete.addListener('place_changed', function() {
+          infowindow.close();
+          marker.setVisible(false);
+          var place = autocomplete.getPlace();
+
+          // If the place has a geometry, present it on the map.
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+          } else {
+            map.setCenter(place.geometry.location);
+            map.setZoom(17);
+          }
+
+          marker.setIcon({
+            url: place.icon,
+            size: new google.maps.Size(71, 71),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(17, 34),
+            scaledSize: new google.maps.Size(35, 35)
+          });
+          marker.setPosition(place.geometry.location);
+          marker.setVisible(true);
+
+          var address = '';
+          if (place.address_components) {
+            address = [
+              (place.address_components[0] && place.address_components[0].short_name || ''),
+              (place.address_components[1] && place.address_components[1].short_name || ''),
+              (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+          }
+
+          infowindow.setContent('<div><strong>' + place.name +
+                                '</strong><br>' + address);
+          infowindow.open(map, marker);
+        });
+
+
       scope.create = function(){
         console.log("clicked")
-      // Car.get({id: $stateParams.id})
+        console.log($stateParams.id)
+      Car.get({id: $stateParams.id},function(car){
         Trip.save({car: scope.car}, function(response){
-          var trip = new Trip(response);
-          Trip.all.push(trip);
-          $state.go("show", {id: trip.id});
+          Trip.all.push(response);
+          $state.go("showCtrl");
         });
-      }
+      });
+    }
       scope.update = function(){
         Car.update({name: originalName}, {trip: scope.trip}, function(trip){
           console.log("Updated!");
-          $state.go("show", {id: trip.id});
+          $state.go("tripIndex", {id: car.trip.id});
         });
       }
-      console.log("stuff")
-      scope.map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 38.901052, lng: -77.031325},
-        zoom: 12,
-        scrollwheel: false
-      });
     }
-    return tripdirective;
   }
 
   function indexCtrl(Car){

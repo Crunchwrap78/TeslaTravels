@@ -4,10 +4,10 @@
   </div>
 
   <label for="trip-name">Trip Name</label>
-  <input id="trip-name" type="text" placeholder="Enter a trip name" data-ng-model="car.id.trip.name">
+  <input id="trip-name" type="text" placeholder="Enter a trip name" data-ng-model="car.trip.name">
   <label for="pac-input">Location</label>
   <input id="pac-input" class="controls" type="text"
-  placeholder="Enter a location">
+  placeholder="Enter a location" data-ng-model="car.trip.location">
 
     <div id="submitbutton">
       <button type="button"  class="btn btn-primary btn-block" data-ng-click="create()">Submit</button>
