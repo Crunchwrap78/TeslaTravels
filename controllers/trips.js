@@ -14,19 +14,29 @@ router.get("/api/trips", function(req, res){
   });
 });
 
-router.post("/api/trips", function(req, res){
-  Trip.create(req.body.trip).then(function(car){
-    res.json(car);
-  });
+router.post("/api/cars/:id/trips", function(req, res){
+  Car.findOne({_id: req.params.id}).then(function(car){
+    console.log(car)
+    Trip.create(req.body.trip).then(function(trip){
+      car.trips.push(trip)
+      car.save(function(err,car){
+        res.json(car)
+      })
+    }).catch(function(err){
+      res.send(err.stack)
+    })
+  }).catch(function(err){
+    res.send(err)
+  })
 });
 
-router.get("api/:vehicle_id", function(req, res){
+router.get("api/cars/:id/trips/id", function(req, res){
   Car.findById(req.params.id).populate("car, id").then(function(car){
     res.json(car);
   });
 });
 
-router.get("api/:_id/trips", function(req, res){
+router.get("api/car/:id/trips", function(req, res){
   Car.findById(req.params.id).populate("car, id").then(function(car){
     res.json(car.trips);
   });
@@ -38,7 +48,7 @@ router.patch("api/trip/:id", function(req, res){
   })
 });
 
-router.delete("/api/trips/:i_d", function(req, res){
+router.delete("/api/car/:id/trips/:id", function(req, res){
   Trip.findById(req.params.id).then(function(trip){
     Car.findByIdAndUpdate(trip.car.id, {
       $pull: { trips: {id: req.params.id} }

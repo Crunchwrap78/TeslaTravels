@@ -3,15 +3,15 @@
     "vehicle_id": "s1",
     "name": "Tesla",
     "model": "Model S",
-    "type-model": "70D",
+    "type_model": "70D",
     "battery_range": 255,
-    "photo_url": "/public/images/models"
+    "photo_url": "/public/images/models.jpg"
   },
   {
     "vehicle_id": "s2",
     "name": "Tesla",
     "model": "Model S",
-    "type-model": "P90D",
+    "type_model": "P90D",
     "battery_range": 294,
     "photo_url": "/public/images/models.jpg"
   },
@@ -19,15 +19,16 @@
     "vehicle_id": "s3",
     "name": "Tesla",
     "model": "Model S",
-    "type-model": "90D",
+    "type_model": "90D",
     "battery_range": 302,
-    "photo_url": "/public/images/models.jpg"
+    "photo_url": "/public/images/models.jpg",
+    "trips": ["57213a3810280fb9b2abf7f0", "57213a3810280fb9b2abf7f1"]
   },
   {
     "vehicle_id": "x1",
     "name": "Tesla",
     "model": "Model X",
-    "type-model": "75D",
+    "type_model": "75D",
     "battery_range": 237,
     "photo_url": "/public/images/modelx.jpg"
   },
@@ -35,7 +36,7 @@
     "vehicle_id": "x2",
     "name": "Tesla",
     "model": "Model X",
-    "type-model": "P90D",
+    "type_model": "P90D",
     "battery_range": 250,
     "photo_url": "/public/images/modelx.jpg"
   },
@@ -43,7 +44,7 @@
     "vehicle_id": "x3",
     "name": "Tesla",
     "model": "Model X",
-    "type-model": "90D",
+    "type_model": "90D",
     "battery_range": 255,
     "photo_url": "/public/images/modelx.jpg"
   },
@@ -51,7 +52,7 @@
     "vehicle_id": "III1",
     "name": "Tesla",
     "model": "Model III",
-    "type-model": "Unknown",
+    "type_model": "Unknown",
     "battery_range": 237,
     "photo_url": "/public/images/model3.jpg"
   }

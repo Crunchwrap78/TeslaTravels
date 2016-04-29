@@ -11,7 +11,7 @@ var CarSchema = new Schema(
     type_model: String,
     battery_range: Number,
     photo_url: String,
-    trip:[{type: ObjectId, ref: "Trip"}]
+    trips:[{type: Schema.Types.ObjectId, ref: "Trip"}]
   },
   {
     toObject: {virtuals: true},
@@ -27,7 +27,7 @@ CarSchema.virtual("id").get(function(){
 var TripSchema = new Schema({
    name: String,
    location: String,
-   car: {type: ObjectId, ref: "Car"}
+   car: {type: Schema.Types.ObjectId, ref: "Car"}
 });
 
 var CarModel = mongoose.model("Car", CarSchema);

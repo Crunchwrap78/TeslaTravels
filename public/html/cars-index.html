@@ -1,6 +1,27 @@
-<div data-ng-repeat="car in indexVM.car">
+<h1>Stuff</h1>
+<div data-ng-repeat="car in indexVM.cars">
   <div class="car">
-    <img data-ng-src="{{ photo_url}}" alt="{{car.name}}" />
-    <p><a data-ui-sref="show({id: car.id})">{{car.name}},{{car.model}}</a></p>
+    <img data-ng-src="{{car.photo_url}}" src="#" alt="{{car.name}}" width="276" height="182"/>
+    <table>
+      <tr>
+        <td class="first">Name</td>
+        <td class="second">{{car.name}}</td>
+      </tr>
+      <tr>
+        <td class="first">Model</td>
+        <td class="second">{{car.model}}</td>
+      </tr>
+      <tr>
+        <td class="first">Type</td>
+        <td class="second">{{car.type_model}}</td>
+      </tr>
+      <tr>
+        <td class="first">Battery Range</td>
+        <td class="second">{{car.battery_range}} miles</td>
+      </tr>
+    </table>
+    <button data-ui-sref="show({id: car.id})" class="btn btn-primary btn-block stretch">
+    Use This Vehicle
+    </button>
   </div>
 </div>

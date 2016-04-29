@@ -1,0 +1,31 @@
+<div class="car">
+  <img data-ng-src="{{showVM.car.photo_url}}" src="#" alt="{{showVM.car.name}}" width="276" height="182"/>
+  <table>
+    <tr>
+      <td class="first">Vehicle ID</td>
+      <td class="second">{{showVM.car.vehicle_id}}</td>
+    </tr>
+    <tr>
+      <td class="first">Name</td>
+      <td class="second">{{showVM.car.name}}</td>
+    </tr>
+    <tr>
+      <td class="first">Model</td>
+      <td class="second">{{showVM.car.model}}</td>
+    </tr>
+    <tr>
+      <td class="first">Type</td>
+      <td class="second">{{showVM.car.type_model}}</td>
+    </tr>
+    <tr>
+      <td class="first">Battery Range</td>
+      <td class="second">{{showVM.car.battery_range}} miles</td>
+    </tr>
+  </table>
+  <button data-ui-sref="tripIndex({id: showVM.car.id})"  type="button"  class="btn btn-primary btn-block stretch">Create New Trip</button>
+  <h1>Past Trips in this Car</h1>
+  <div data-ng-repeat = "trip in showVM.car.trips" class="trips">
+
+    {{trip.name}}
+      {{trip.location}}
+  </div>
